@@ -18,3 +18,18 @@ Technologies Used:
 2. SQLite: A self-contained database used to store active transactions and the transaction history.
 3. HTML/CSS: Used for the structure and styling of the user interface.
 4. Bootstrap: For responsive design and basic styling.
+
+ENTER YOUR TRANSACTION : 
+
+![myimage](https://github.com/lakshmitulasimandala/BUDJET/blob/main/enter_trns.jpg?raw=true)
+
+
+ADDING YOUR TRANSACTION INTO THE LIST : 
+![myimage2](https://github.com/lakshmitulasimandala/BUDJET/blob/main/add_trns.jpg?raw=true)
+
+SEE ALL THE OTHER TRANSACTIONS MADE :
+![myimage3](https://github.com/lakshmitulasimandala/BUDJET/blob/main/all_trns.jpg?raw=true)
+
+
+
+still working on taking forward this idea !
