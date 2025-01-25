@@ -17,16 +17,3 @@ Flask: A lightweight Python web framework used to create the web application and
 SQLite: A self-contained database used to store active transactions and the transaction history.
 HTML/CSS: Used for the structure and styling of the user interface.
 Bootstrap: For responsive design and basic styling.
-
-
-Directory Structure:
-Edit
-budjet/
-├── app.py                     # Main application file containing routes and logic
-├── database.db                # SQLite database containing active transactions and history
-├── templates/
-│   ├── index.html             # Home page to add transactions
-│   ├── active_transactions.html  # Page to view active transactions
-│   ├── transaction_history.html  # Page to view transaction history
-├── static/
-│   └── styles.css             # Custom styles for the application
