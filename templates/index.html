@@ -6,8 +6,21 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>
-        Hello welcome to BudJet app
-    </h1>
+    <h1>Welcome to Budjet!</h1>
+    <div>
+        <form action="/add_transaction" method="post">
+            <label>Amount: </label>
+            <input type="number" name="amount" required><br><br>
+
+            <label>Category: </label>
+            <input type="text" name="category" required><br><br>
+
+            <label>Add Note: </label>
+            <input type="text" name="note"><br><br>
+
+            <button type="submit">Add Transaction</button>
+        </form>
+    </div>
+    <a href="/history">View History</a>
 </body>
 </html>
