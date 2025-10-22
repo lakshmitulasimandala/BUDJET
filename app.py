@@ -28,7 +28,6 @@ def add_transaction():
     conn.commit()
     conn.close()
 
-
     return redirect("/history")
 
 
@@ -38,13 +37,28 @@ def history():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM transactions ORDER by id DESC")
+    cursor.execute("SELECT * FROM transactions ORDER by id")
     transactions = cursor.fetchall()
 
     total_amount = sum([t[3] for t in transactions])  # t[3] is the 'amount' column
 
     conn.close()
     return render_template('history.html',transactions = transactions, total_amount= total_amount)
+
+
+@app.route('/delete_transaction/<int:trans_id>', methods = ["POST"])
+def delete_transaction(trans_id):
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+
+    c.execute("DELETE FROM transactions WHERE id = ?", (trans_id,))
+    
+    conn.commit()
+    conn.close()
+
+    return redirect("/history")
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

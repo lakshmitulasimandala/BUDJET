@@ -17,11 +17,17 @@
         </tr>
         {% for t in transactions %}
         <tr>
-            <td>{{ t[0] }}</td> <!-- ID -->
+            <td>{{ loop.index }}</td> 
+            <!--<td> {{ t[0] }}</td>--> <!-- ID -->
             <td>{{ t[1] }}</td> <!-- Date -->
             <td>{{ t[2] }}</td> <!-- Category -->
             <td>{{ t[3] }}</td> <!-- Amount -->
             <td>{{ t[4] }}</td> <!-- Note -->
+            <td>
+                <form action="/delete_transaction/{{ t[0] }}" method="post" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
 
@@ -31,7 +37,7 @@
             <td colspan="2">{{ total_amount }}</td>
         </tr>
 
-        <a href="/">Add New Transaction</a>
     </table>
+    <a href="/">Add New Transaction</a>
 </body>
 </html>
