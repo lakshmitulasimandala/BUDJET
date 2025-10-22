@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Transaction</title>
+</head>
+<body>
+    <div>
+        <form action="/update_transaction/{{ transaction[0]  }}", method="post">
+            <label>Amount:</label>
+
+            <input type="hidden" name="id" value="{{ transaction[0] }}"> <!-- hidden ID -->
+
+            <input type="number" name="amount" value="{{ transaction[3] }}" required> <br> <br> 
+
+            <label>Category:</label>
+            <input type="text" name="category" value="{{ transaction[2] }}" required> <br> <br> 
+
+            <label>Note:</label>
+            <input type="text" name="note" value="{{ transaction[4] }}" > <br> <br> 
+
+            <button type="submit" >Update transaction</button>
+        </form>
+
+        <a href="/history">Back to History</a>
+    </div>
+</body>
+</html>

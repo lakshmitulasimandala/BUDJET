@@ -25,7 +25,12 @@
             <td>{{ t[4] }}</td> <!-- Note -->
             <td>
                 <form action="/delete_transaction/{{ t[0] }}" method="post" style="display:inline;">
-                    <button type="submit">Delete</button>
+                    <button type="submit">DELETE</button>
+                </form>
+            </td>
+            <td>
+                <form action="/edit/{{ t[0] }}" method="get" style="display:inline;">
+                    <button type="submit">EDIT</button>
                 </form>
             </td>
         </tr>

@@ -59,6 +59,38 @@ def delete_transaction(trans_id):
     return redirect("/history")
 
 
+@app.route('/edit/<int:trans_id>')
+def edit_transaction(trans_id):
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM transactions WHERE id = ?", (trans_id,))
+    transaction = c.fetchone()
+
+    conn.close()
+
+    return render_template('edit.html', transaction = transaction)
+
+
+@app.route('/update_transaction/<int:trans_id>', methods = ["POST"])
+def update_transaction(trans_id):
+    category = request.form['category']
+    amount = float(request.form['amount'])
+    note = request.form.get('note',"")
+
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        UPDATE transactions 
+        SET category = ?, amount = ?, note = ? 
+        WHERE id = ?               
+    ''', (category, amount, note, trans_id))
+
+    conn.commit()
+    conn.close()
+
+    return redirect('/history')
 
 if __name__ == "__main__":
     app.run(debug=True)
