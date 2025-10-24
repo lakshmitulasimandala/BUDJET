@@ -14,6 +14,7 @@
             <th>Category</th>
             <th>Amount</th>
             <th>Note</th>
+            <th>Main Category</th>
         </tr>
         {% for t in transactions %}
         <tr>
@@ -23,6 +24,7 @@
             <td>{{ t[2] }}</td> <!-- Category -->
             <td>{{ t[3] }}</td> <!-- Amount -->
             <td>{{ t[4] }}</td> <!-- Note -->
+            <td>{{t[5]}}</td><!-- Main Category -->
             <td>
                 <form action="/delete_transaction/{{ t[0] }}" method="post" style="display:inline;">
                     <button type="submit">DELETE</button>

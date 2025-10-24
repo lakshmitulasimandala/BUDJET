@@ -13,6 +13,7 @@ def home():
 @app.route('/add_transaction', methods = ["POST"])
 def add_transaction():
     amount = float(request.form['amount'])
+    main_category = request.form['main_category']
     category = request.form['category']
     note = request.form.get('note','')
     today = date.today().strftime("%Y-%m-%d")
@@ -21,8 +22,8 @@ def add_transaction():
     cursor = conn.cursor()
 
     cursor.execute('''
-        INSERT INTO transactions (date, category, amount, note) VALUES (?, ?, ?, ?)''',
-        (today, category, amount, note)
+        INSERT INTO transactions (date,main_category , category, amount, note) VALUES (?, ?, ?, ?, ?)''',
+        (today, main_category, category, amount, note)
     )
     
     conn.commit()
@@ -74,6 +75,7 @@ def edit_transaction(trans_id):
 
 @app.route('/update_transaction/<int:trans_id>', methods = ["POST"])
 def update_transaction(trans_id):
+    main_category = request.form['main_category']
     category = request.form['category']
     amount = float(request.form['amount'])
     note = request.form.get('note',"")
@@ -83,9 +85,9 @@ def update_transaction(trans_id):
 
     cursor.execute('''
         UPDATE transactions 
-        SET category = ?, amount = ?, note = ? 
+        SET main_category = ?, category = ?, amount = ?, note = ? 
         WHERE id = ?               
-    ''', (category, amount, note, trans_id))
+    ''', (main_category, category, amount, note, trans_id))
 
     conn.commit()
     conn.close()

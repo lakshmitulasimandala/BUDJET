@@ -14,6 +14,22 @@
 
             <input type="number" name="amount" value="{{ transaction[3] }}" required> <br> <br> 
 
+            <label>Main Category:</label>
+            <select name="main_category" required>
+            <option value="Food" {% if transaction[5]=='Food' %}selected{% endif %}>Food</option>
+            <!-- add other options and selected logic -->
+            <option value="Travel" {% if transaction[5]=='Travel' %}selected{% endif %}>Travel</option>
+            <option value="Fees" {% if transaction[5]=='Fees' %}selected{% endif %}>Fees</option>
+            <option value="Clothes" {% if transaction[5]=='Clothes' %}selected{% endif %}>Clothes</option>
+            <option value="Entertainment" {% if transaction[5]=='Entertainment' %}selected{% endif %}>Entertainment</option>
+            <option value="Health" {% if transaction[5]=='Health' %}selected{% endif %}>Health</option>
+            <option value="Home" {% if transaction[5]=='Home' %}selected{% endif %}>Home</option>
+            <option value="Bills" {% if transaction[5]=='Bills' %}selected{% endif %}>Bills</option>
+            <option value="Gifts" {% if transaction[5]=='Gifts' %}selected{% endif %}>Gifts</option>
+            <option value="Savings" {% if transaction[5]=='Savings' %}selected{% endif %}>Savings</option>
+            <option value="Others" {% if transaction[5]=='Others' %}selected{% endif %}>Others</option>
+            </select><br><br>
+
             <label>Category:</label>
             <input type="text" name="category" value="{{ transaction[2] }}" required> <br> <br> 
 
