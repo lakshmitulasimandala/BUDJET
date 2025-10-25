@@ -35,16 +35,28 @@ def add_transaction():
 
 @app.route('/history')
 def history():
+    sort_order = request.args.get('sort_order','asc').upper()
+    main_category = request.args.get('main_category','')
+    
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM transactions ORDER by id")
+    query = ("SELECT * FROM transactions")
+    params = []
+
+    if main_category:  # if user selected a category
+        query += " WHERE main_category = ?"
+        params.append(main_category)
+
+    query += " ORDER BY DATE " + ("ASC" if sort_order == "ASC" else "DESC")
+
+    cursor.execute(query,params)
     transactions = cursor.fetchall()
 
     total_amount = sum([t[3] for t in transactions])  # t[3] is the 'amount' column
 
     conn.close()
-    return render_template('history.html',transactions = transactions, total_amount= total_amount)
+    return render_template('history.html',transactions = transactions, total_amount= total_amount, selected_category = main_category)
 
 
 @app.route('/delete_transaction/<int:trans_id>', methods = ["POST"])

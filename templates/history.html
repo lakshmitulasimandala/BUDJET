@@ -7,6 +7,31 @@
 </head>
 <body>
     <h1>Transaction History</h1>
+
+    <label>Sort by Date:</label>
+    <select name="sort_order">
+        <option value="asc" {% if request.args.get('sort_order') == 'asc' %}selected{% endif %}>Oldest First</option>
+        <option value="desc" {% if request.args.get('sort_order') == 'desc' %}selected{% endif %}>Newest First</option>
+    </select>
+
+    <form method="get" action="/history">
+        <label>Filter by Main Category:</label>
+        <select name="main_category" onchange="this.form.submit()">
+            <option value="">All</option>
+            <option value="Food" {% if selected_category=='Food' %}selected{% endif %}>Food</option>
+            <option value="Travel" {% if selected_category=='Travel' %}selected{% endif %}>Travel</option>
+            <option value="Fees" {% if selected_category=='Fees' %}selected{% endif %}>Fees</option>
+            <option value="Clothes" {% if selected_category=='Clothes' %}selected{% endif %}>Clothes</option>
+            <option value="Entertainment" {% if selected_category=='Entertainment' %}selected{% endif %}>Entertainment</option>
+            <option value="Health" {% if selected_category=='Health' %}selected{% endif %}>Health</option>
+            <option value="Home" {% if selected_category=='Home' %}selected{% endif %}>Home</option>
+            <option value="Bills" {% if selected_category=='Bills' %}selected{% endif %}>Bills</option>
+            <option value="Gifts" {% if selected_category=='Gifts' %}selected{% endif %}>Gifts</option>
+            <option value="Savings" {% if selected_category=='Savings' %}selected{% endif %}>Savings</option>
+            <option value="Others" {% if selected_category=='Others' %}selected{% endif %}>Others</option>
+        </select>
+    </form>
+
     <table border="1" cellpadding="10">
         <tr>
             <th>ID</th>
