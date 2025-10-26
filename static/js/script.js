@@ -48,3 +48,37 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+
+
+// Modal logic
+document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById('deleteModal');
+    const closeModal = document.getElementById('closeModal');
+    const cancelDelete = document.getElementById('cancelDelete');
+    const confirmDelete = document.getElementById('confirmDelete');
+    let formToSubmit = null;
+
+    // attach click event to all delete buttons
+    document.querySelectorAll('form[action^="/delete_transaction"]').forEach(form => {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formToSubmit = form;
+            modal.style.display = 'flex';
+        });
+    });
+
+    closeModal.onclick = () => modal.style.display = 'none';
+    cancelDelete.onclick = () => modal.style.display = 'none';
+
+    confirmDelete.onclick = () => {
+        if (formToSubmit) formToSubmit.submit();
+    };
+
+    // click outside modal closes it
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+});

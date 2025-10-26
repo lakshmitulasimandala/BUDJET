@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+  <title>{% block title %}Budjet{% endblock %}</title>
+</head>
+<body>
+
+    <!-- Stickers in the background -->
+    <img src="{{ url_for('static', filename='images/flower_clips.png') }}" class="clip_sticker sticker-top-left" alt="sticker1">
+    <img src="{{ url_for('static', filename='images/daysofweek.png') }}" class="days_sticker sticker-bottom-right" alt="sticker2">
+    <img src="{{ url_for('static', filename='images/wecanhelpu_image.png') }}" 
+     class="we_image" 
+     alt="sticker4">
+    <img src="{{ url_for('static', filename='images/dollars_note_image.png') }}" class="sticker sticker-bottom-left" alt="sticker3">   
+
+  <div class="app-shell">
+    <div class="card {% block card_class %}{% endblock %}">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+
+  <!-- toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- modal -->
+  <div id="modalBackdrop" class="modal-backdrop">
+    <div class="modal">
+      <div id="modalBody"></div>
+      <div style="text-align:right; margin-top:12px;">
+        <button id="modalCancel" class="btn secondary">Cancel</button>
+        <button id="modalConfirm" class="btn">Confirm</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

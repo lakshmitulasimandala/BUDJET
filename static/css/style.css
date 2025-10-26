@@ -1,6 +1,439 @@
-#expenseChart {
+/*#expenseChart {
     max-width: 400px;   /* chart width */
-    max-height: 400px;  /* chart height */
-    margin: 20px auto;  /* center the chart */
-    display: block;
+    /*max-height: 400px;  /* chart height */
+    /*margin: 20px auto;  /* center the chart */
+   /* display: block;
+} */
+
+/* static/css/style.css
+   Notebook-style background + UI palette from user
+*/
+
+:root{
+  --green-1: #0A5C36;
+  --green-2: #14452F;
+  --green-3: #18392B;
+  --green-4: #1D2E28;
+  --muted: rgba(0,0,0,0.06);
+  --card-bg: #ffffff;
+  --accent: var(--green-1);
+  --accent-dark: var(--green-2);
+  --border: rgba(20,69,47,0.12);
+  --text: #173224;
+  --success: #2a9d8f;
 }
+
+/* page background — subtle graph paper / checkboxes effect */
+body{
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: white;
+  color: var(--text);
+  margin:0;
+  padding:24px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+}
+
+/* graph-paper small boxes: two layered repeating backgrounds for squares */
+.app-shell {
+  background:
+    /* vertical lines */
+    repeating-linear-gradient(
+      90deg,
+      rgba(0,0,0,0.06) 0px,
+      rgba(0,0,0,0.06) 1px,
+      transparent 1px,
+      transparent 40px
+    ),
+    /* horizontal lines */
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.06) 0px,
+      rgba(0,0,0,0.06) 1px,
+      transparent 1px,
+      transparent 40px
+    ),
+    white;
+  padding: 28px;
+  min-height: calc(100vh - 56px);
+}
+
+/* card container to hold content (white card like iPad notes) */
+.card{
+  background: var(--card-bg);
+  position: relative;
+  z-index: 1;
+  background: #FFFBF2;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(19, 29, 23, 0.06);
+  padding: 18px;
+  border: 1px solid var(--border);
+}
+
+
+.card, .card table {
+    font-family: 'Patrick Hand', cursive;
+}
+
+
+
+/*separate cards for home and edit pages*/
+.home-card, .edit-card {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 24px;
+    border-radius: 20px;
+    background: #FFFBF2;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    position: relative;
+}
+
+/* optional: stickers for home/edit */
+.home-card .sticker,
+.edit-card .sticker {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    pointer-events: none;
+}
+
+.home-card::before ,
+.edit-card::before{
+    content: "📌";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    font-size: 32px;
+}
+
+.home-card::after ,
+.edit-card::after{
+    content: "🌿";
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    font-size: 50px;
+}
+
+
+h1, h2 {
+    font-family: 'Patrick Hand', cursive;  /* Google Fonts “handwritten” */
+    color: #0A5C36;
+}
+
+/* stickers won't block clicks
+.sticker img {
+    width: 40px;
+    height: 40px;
+    pointer-events: none;  
+}
+.sticker {
+    position: absolute;
+}
+*/
+
+/* Stickers floating on background */
+.sticker {
+  position: absolute; /* stays relative to viewport, not card */
+  width: 30vh; /* adjust size */
+  height: auto;
+  z-index: 0; /* behind the card */
+  opacity: 0.9; /* slight transparency to blend with grid */
+  pointer-events: none; /* stickers don’t block clicks */
+}
+
+
+.clip_sticker{
+  position: absolute; /* stays relative to viewport, not card */
+  width: 25vh; /* adjust size */
+  height: auto;
+  z-index: 0; /* behind the card */
+  opacity: 0.9; /* slight transparency to blend with grid */
+  pointer-events: none;
+  transform: rotate(-30deg); /* tilts anti-clockwise */
+}
+
+.days_sticker{
+  position: absolute; /* stays relative to viewport, not card */
+  width: 100vh; /* adjust size */
+  height: auto;
+  z-index: 0; /* behind the card */
+  opacity: 0.9; /* slight transparency to blend with grid */
+  pointer-events: none;
+  margin-left: 10px;
+}
+.we_image{
+    position: absolute;   /* or relative to body container */
+    left: 20px;           /* distance from left edge */
+    top: 50%;             /* halfway down the viewport */
+    transform: translateY(-50%);  /* center vertically */
+    width: 40vh;          /* adjust as needed */
+    height: auto;
+    z-index: 0;      
+}
+/* specific positions */
+.sticker-top-left {
+  top: 20px;
+  left: 20px;
+}
+
+.sticker-bottom-right {
+  bottom: 20px;
+  right: 20px;
+}
+
+.sticker-bottom-left {
+  bottom: 60px;
+  left: 40px;
+}
+
+
+/* Buttons */
+.btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  margin-left: 1px;
+  margin-right: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  display:inline-block;
+  text-decoration: none;
+  font-family: 'Shadows Into Light', cursive;
+
+}
+.btn:hover{ background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 6px 14px rgba(13,31,18,0.08); }
+.btn.secondary { background: transparent; color: var(--green-4); border: 1px solid rgba(20,69,47,0.08); }
+.btn.small { padding:6px 10px; border-radius:8px; font-weight:600; }
+
+/* Form inputs */
+input[type="text"], input[type="number"], select {
+  padding: 8px 10px;
+  border: 1px solid rgba(20,69,47,0.08);
+  border-radius: 8px;
+  outline: none;
+  min-width: 180px;
+}
+input:focus, select:focus { box-shadow: 0 4px 10px rgba(10,92,54,0.06); border-color: var(--green-2); }
+
+
+/*filtering , sorting , searching container styling */
+
+.filter-sort-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap; /* wrap on smaller screens */
+    margin: 20px 0;
+}
+
+.filter-sort-container select,
+.filter-sort-container input,
+.filter-sort-container button {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(20,69,47,0.2);
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1rem;
+    background: #fdfcf8;
+    color: #173224;
+}
+
+.filter-sort-container select option {
+  font-family: 'Patrick Hand', cursive;
+}
+
+
+/* Table styles — soft, readable, darker and centered */
+.table {
+  width: 80%;               /* narrower and centered */
+  border-collapse: collapse;
+  margin: 20px auto;        /* centers the table */
+  font-size: 0.95rem;
+  border: 2px solid rgba(20,69,47,0.2); /* outer border darker */
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.table th, .table td {
+  padding: 10px 12px;
+  border: 1px solid rgba(20,69,47,0.2); /* darker inner borders */
+  text-align: center;       /* center align text */
+}
+
+.table thead th {
+  font-weight: 1000;
+  color: var(--green-4);
+  border-bottom: 2px solid rgba(20,69,47,0.3); /* darker header bottom border */
+}
+
+.table tbody tr:hover {
+  background: rgba(10,92,54,0.05); /* subtle hover */
+}
+
+.table tbody tr:nth-child(odd) {
+  background: rgba(0,0,0,0.02); /* alternating row color */
+}
+
+.total-row {
+  font-size: 1.1rem;            /* slightly bigger text */
+  font-weight: bold;            /* bold text */
+  background-color: rgba(10, 92, 54, 0.05); /* subtle highlight */
+}
+
+.total-row td {
+  border-top: 2px solid rgba(10, 92, 54, 0.15); /* separates from above rows */
+  padding: 12px 10px;
+}
+
+
+/* small action buttons in table */
+.action-btn { padding:6px 8px; border-radius: 8px; font-size:0.85rem; }
+.action-btn.danger { background:transparent; color:#b02a37; border:1px solid rgba(176,42,55,0.08); }
+
+
+
+/* Just summary of expenses and pie chart styling */
+.summary-container {
+    display: flex;
+    justify-content: center; /* center the whole block */
+    align-items: flex-start; /* top align table and chart */
+    gap: 40px; /* space between table and chart */
+    flex-wrap: wrap; /* wrap on smaller screens */
+    margin-top: 20px;
+    text-align: center; 
+}
+
+.summary-table {
+    border-collapse: collapse;
+    border: 2px solid rgba(20,69,47,0.2);
+    font-size: 0.95rem;
+}
+
+.summary-table th, .summary-table td {
+    padding: 10px 12px;
+    border: 1px solid rgba(20,69,47,0.2);
+    text-align: center;
+}
+
+.summary-table thead th {
+    font-weight: 700;
+    color: var(--green-4);
+}
+
+.summary-block, .chart-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;      /* center table/chart inside each block */
+}
+
+
+/* summary 
+.summary-grid {
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+.summary-card {
+  padding:12px;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(10,92,54,0.03), rgba(0,0,0,0.00));
+  border: 1px solid rgba(10,92,54,0.06);
+  min-width:160px;
+}*/
+
+/* canvas chart sizing */
+#expenseChart { display:block; max-width: 420px; margin: 12px auto; }
+
+/* responsive layout helpers */
+.row { display:flex; gap:14px; flex-wrap:wrap; }
+.col { flex:1 1 320px; }
+
+/* small toast */
+.toast {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  padding: 12px 16px;
+  background: var(--green-3);
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(13,31,18,0.12);
+  display:none;
+}
+
+/* modal (simple confirmation) */
+.modal-backdrop {
+  position:fixed; inset:0; background: rgba(0,0,0,0.35); display:none; justify-content:center; align-items:center;
+}
+.modal {
+  background:white; padding:18px; border-radius:12px; width:min(520px, 94%); border:1px solid rgba(0,0,0,0.06);
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    text-align: center;
+    border: 2px solid #0A5C36;  /* your color palette */
+}
+
+.modal-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.modal-buttons button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #0A5C36; /* olive green button */
+    color: white;
+}
+
+.modal-buttons button:hover {
+    background-color: #14452F;
+}
+
+.close {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.history-page,
+.index-page,
+.edit-page {
+    text-align: center;
+}
+
+table {
+    margin: 20px auto; /* centers the table */
+}
+
+form {
+    display: inline-block; /* centers the form horizontally */
+    text-align: left; /* keep input labels aligned */
+}
+

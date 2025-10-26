@@ -1,23 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Transaction</title>
-</head>
-<body>
-    <div>
-        <form action="/update_transaction/{{ transaction[0]  }}", method="post">
-            <label>Amount:</label>
+{% extends "base.html" %}
+{% block title %}Edit Transaction - Budjet{% endblock %}
+{% block card_class %}edit-card{% endblock %}
+{% block content %}
+<h1>Edit Your Transactions</h1>
+<div>
+    <form action="/update_transaction/{{ transaction[0] }}" method="post">
+        <input type="hidden" name="id" value="{{ transaction[0] }}"> <!-- hidden ID -->
 
-            <input type="hidden" name="id" value="{{ transaction[0] }}"> <!-- hidden ID -->
+        <label>Amount:</label>
+        <input type="number" name="amount" value="{{ transaction[3] }}" required><br><br> 
 
-            <input type="number" name="amount" value="{{ transaction[3] }}" required> <br> <br> 
-
-            <label>Main Category:</label>
-            <select name="main_category" required>
+        <label>Main Category:</label>
+        <select name="main_category" required>
             <option value="Food" {% if transaction[5]=='Food' %}selected{% endif %}>Food</option>
-            <!-- add other options and selected logic -->
             <option value="Travel" {% if transaction[5]=='Travel' %}selected{% endif %}>Travel</option>
             <option value="Fees" {% if transaction[5]=='Fees' %}selected{% endif %}>Fees</option>
             <option value="Clothes" {% if transaction[5]=='Clothes' %}selected{% endif %}>Clothes</option>
@@ -28,18 +23,17 @@
             <option value="Gifts" {% if transaction[5]=='Gifts' %}selected{% endif %}>Gifts</option>
             <option value="Savings" {% if transaction[5]=='Savings' %}selected{% endif %}>Savings</option>
             <option value="Others" {% if transaction[5]=='Others' %}selected{% endif %}>Others</option>
-            </select><br><br>
+        </select><br><br>
 
-            <label>Category:</label>
-            <input type="text" name="category" value="{{ transaction[2] }}" required> <br> <br> 
+        <label>Category:</label>
+        <input type="text" name="category" value="{{ transaction[2] }}" required><br><br> 
 
-            <label>Note:</label>
-            <input type="text" name="note" value="{{ transaction[4] }}" > <br> <br> 
+        <label>Note:</label>
+        <input type="text" name="note" value="{{ transaction[4] }}"><br><br> 
 
-            <button type="submit" >Update transaction</button>
-        </form>
+        <button type="submit" class="btn">Update Transaction</button>
+    </form>
 
-        <a href="/history">Back to History</a>
-    </div>
-</body>
-</html>
+    <a href="/history" class="btn secondary">Back to History</a>
+</div>
+{% endblock %}

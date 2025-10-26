@@ -70,13 +70,16 @@ def history():
     ''')
     summary_data = cursor.fetchall()
 
+    categories = [row[0] for row in summary_data]
+
     conn.close()
     return render_template('history.html',
                            transactions = transactions, 
                            total_amount= total_amount,
                            keyword = keyword, 
                            selected_category = main_category,
-                           summary_data = summary_data)
+                           summary_data = summary_data,
+                           categories = categories)
 
 
 @app.route('/delete_transaction/<int:trans_id>', methods = ["POST"])
