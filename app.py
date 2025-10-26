@@ -1,9 +1,18 @@
 import sqlite3
 import io
 import csv 
+import os
 from flask import make_response
 from datetime import date 
 from flask import Flask, render_template, redirect,request
+from flask import make_response
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase import pdfmetrics
+
 
 app = Flask(__name__)
 
