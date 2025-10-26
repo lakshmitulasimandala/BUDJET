@@ -1,0 +1,6 @@
+#expenseChart {
+    max-width: 400px;   /* chart width */
+    max-height: 400px;  /* chart height */
+    margin: 20px auto;  /* center the chart */
+    display: block;
+}

@@ -35,6 +35,7 @@ def add_transaction():
 
 @app.route('/history')
 def history():
+    keyword = request.args.get('keyword', '')
     sort_order = request.args.get('sort_order','asc').upper()
     main_category = request.args.get('main_category','')
     
@@ -48,6 +49,13 @@ def history():
         query += " WHERE main_category = ?"
         params.append(main_category)
 
+    if keyword:
+        if params:
+            query += (" AND (category LIKE ? OR note LIKE ?)")
+        else:
+            query += (" WHERE (category LIKE ? OR note LIKE ?)")
+        params.extend([f"%{keyword}%", f"%{keyword}%"])
+
     query += " ORDER BY DATE " + ("ASC" if sort_order == "ASC" else "DESC")
 
     cursor.execute(query,params)
@@ -55,8 +63,20 @@ def history():
 
     total_amount = sum([t[3] for t in transactions])  # t[3] is the 'amount' column
 
+    cursor.execute('''
+        SELECT main_category, SUM(amount)
+        FROM transactions
+        GROUP BY main_category
+    ''')
+    summary_data = cursor.fetchall()
+
     conn.close()
-    return render_template('history.html',transactions = transactions, total_amount= total_amount, selected_category = main_category)
+    return render_template('history.html',
+                           transactions = transactions, 
+                           total_amount= total_amount,
+                           keyword = keyword, 
+                           selected_category = main_category,
+                           summary_data = summary_data)
 
 
 @app.route('/delete_transaction/<int:trans_id>', methods = ["POST"])

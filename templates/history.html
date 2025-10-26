@@ -3,17 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- CDN for Chart.js -->
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
     <title>Transaction History</title>
 </head>
 <body>
     <h1>Transaction History</h1>
 
+    <!-- Search form -->
+    <form method="get" action="/history">
+        <input type="text" name="keyword" placeholder="Search by keyword" value="{{ keyword | default('') }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Sort By Date -->
     <label>Sort by Date:</label>
     <select name="sort_order">
         <option value="asc" {% if request.args.get('sort_order') == 'asc' %}selected{% endif %}>Oldest First</option>
         <option value="desc" {% if request.args.get('sort_order') == 'desc' %}selected{% endif %}>Newest First</option>
     </select>
 
+
+    <!-- Filter -->
     <form method="get" action="/history">
         <label>Filter by Main Category:</label>
         <select name="main_category" onchange="this.form.submit()">
@@ -32,6 +44,8 @@
         </select>
     </form>
 
+
+    <!-- the ACtual Table -->
     <table border="1" cellpadding="10">
         <tr>
             <th>ID</th>
@@ -70,6 +84,28 @@
         </tr>
 
     </table>
+
+    <!--The Summary TabLE-->
+    <h2>Expense Summary by Category</h2>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Main Category</th>
+            <th>Total Spent (₹)</th>
+        </tr>
+        {% for row in summary_data %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ "%.2f"|format(row[1]) }}</td>
+            </tr>
+        {% endfor %}
+    </table>
     <a href="/">Add New Transaction</a>
+
+    <h2>Expense Summary by Category</h2>
+    <canvas id="expenseChart"
+        data-labels='{{ summary_data | map(attribute=0) | map("tojson") | list | tojson }}'
+        data-values='{{ summary_data | map(attribute=1) | list | tojson }}'>
+    </canvas>
+
 </body>
 </html>
