@@ -1,4 +1,7 @@
 import sqlite3
+import io
+import csv 
+from flask import make_response
 from datetime import date 
 from flask import Flask, render_template, redirect,request
 
@@ -128,6 +131,32 @@ def update_transaction(trans_id):
     conn.close()
 
     return redirect('/history')
+
+
+@app.route('/download_csv')
+def download_csv():
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM transactions")
+    data = cursor.fetchall()
+    conn.close()
+
+    # Write CSV data into a memory buffer
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(['ID', 'Date', 'Category', 'Amount', 'Note', 'Main Category'])
+    writer.writerows(data)
+
+    # Get CSV content as string
+    csv_data = output.getvalue()
+    output.close()
+
+    # Create Flask response
+    response = make_response(csv_data)
+    response.headers["Content-Disposition"] = "attachment; filename=transactions.csv"
+    response.headers["Content-Type"] = "text/csv"
+    return response
+
 
 if __name__ == "__main__":
     app.run(debug=True)

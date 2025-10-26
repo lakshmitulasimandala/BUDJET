@@ -25,6 +25,10 @@
                     <option value="{{ cat }}" {% if request.args.get('main_category') == cat %}selected{% endif %}>{{ cat }}</option>
                  {% endfor %}
             </select>
+            <div class="download-buttons">
+                <a href="/download_csv" class="btn">⬇ Download CSV</a>
+                <a href="/download_pdf" class="btn">📄Download PDF</a>
+            </div>
         </div>
 
 
