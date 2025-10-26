@@ -123,6 +123,18 @@ h1, h2 {
     color: #0A5C36;
 }
 
+/* Apply Patrick Hand font to all text inputs, textarea, and select dropdowns */
+input, textarea, select, button {
+    font-family: 'PatrickHand', cursive;
+}
+
+/* Optional: adjust font size for better visibility */
+input, textarea, select {
+    font-size: 16px;
+    color: #0A5C36;
+}
+
+
 /* stickers won't block clicks
 .sticker img {
     width: 40px;

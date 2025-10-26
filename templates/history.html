@@ -8,28 +8,30 @@
         <div class="filter-sort-container">
             <form method="get" action="/history">
                 <input type="text" name="keyword" placeholder="Search by keyword" value="{{ keyword | default('') }}">
-                <button type="submit" class="btn">Search</button>
+
+                <label>Sort by Date:</label>
+                <select name="sort_order" onchange="this.form.submit()">
+                    <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>Oldest First</option>
+                    <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Newest First</option>
+                </select>
+
+                <label>Filter by Main Category:</label>
+                <select name="main_category" onchange="this.form.submit()">
+                    <option value="">All</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit" class="btn">Search / Apply Filters</button>
             </form>
 
-            <label>Sort by Date:</label>
-            <select name="sort_order">
-                <option value="asc" {% if request.args.get('sort_order') == 'asc' %}selected{% endif %}>Oldest First</option>
-                <option value="desc" {% if request.args.get('sort_order') == 'desc' %}selected{% endif %}>Newest First</option>
-            </select>
-
-            <label>Filter by Main Category:</label>
-            <select name="main_category" onchange="this.form.submit()">
-                <option value="">All</option>
-                <!-- options here -->
-                 {% for cat in categories %}
-                    <option value="{{ cat }}" {% if request.args.get('main_category') == cat %}selected{% endif %}>{{ cat }}</option>
-                 {% endfor %}
-            </select>
             <div class="download-buttons">
                 <a href="/download_csv" class="btn">⬇ Download CSV</a>
-                <a href="/download_pdf" class="btn">📄Download PDF</a>
+                <a href="{{ url_for('download_pdf') }}" class="btn">📄 Download PDF</a>
             </div>
         </div>
+
 
 
         <!-- the ACtual Table -->
